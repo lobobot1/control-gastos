@@ -18,13 +18,13 @@ const ControlDePresupuesto = ({ presupuesto }: Props) => {
 
         <div className="contenido-presupuesto">
           <p>
-            <span>Restante:</span>$ {amount(presupuesto)}
+            <span>Restante: </span>{amount(presupuesto)}
           </p>
           <p>
-            <span>Disponible:</span>$ {amount(0)}
+            <span>Disponible: </span>{amount(0)}
           </p>
           <p>
-            <span>Gastado:</span>$ {amount(0)}
+            <span>Gastado: </span>{amount(0)}
           </p>
         </div>
       </div>
