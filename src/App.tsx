@@ -16,6 +16,11 @@ function App() {
     } , 1e2);
 
   };
+
+  const guardarGasto = (gasto: any) => {
+    console.log(gasto);
+  };
+
   return (
     <div>
       <Header
@@ -32,7 +37,7 @@ function App() {
           />
         </div>
       )}
-      {modal && <Modal setModal={setModal} animarModal={animarModal} setAnimarModal={setAnimarModal} />}
+      {modal && <Modal setModal={setModal} animarModal={animarModal} setAnimarModal={setAnimarModal} guardarGasto={guardarGasto} />}
     </div>
   );
 }
