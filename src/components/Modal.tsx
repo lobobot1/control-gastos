@@ -2,6 +2,8 @@ import { useState } from "react";
 import cerrarModal from "../img/cerrar.svg";
 import Message from "./Message";
 
+/* The `interface Props` is defining the props that the `Modal` component is expecting to receive. It
+includes four properties: `setModal`, `animarModal`, `setAnimarModal`, and `guardarGasto`. */
 interface Props {
   setModal: (modal: boolean) => void;
   animarModal: boolean;
@@ -16,6 +18,10 @@ const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto }: Props) =
   const [mens, setMens] = useState<string>("");
   const [gastos,setGastos] = useState<any[]>([]);
 
+  /**
+   * The function closes a modal by setting animation and modal states to false and using a timeout to
+   * delay setting the modal state to false.
+   */
   const closeModal = () => {
     setAnimarModal(false);
     setTimeout(() => {
@@ -23,6 +29,14 @@ const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto }: Props) =
     }, 1e2);
   };
 
+  /**
+   * This function handles form submission and checks if all required fields are filled before saving
+   * the data.
+   * @param e - React.FormEvent<HTMLFormElement>
+   * @returns The function `handleSubmit` is not returning anything explicitly. It is updating the
+   * state of `mens` and calling the function `guardarGasto` with the values of `nombre`, `cantidad`,
+   * and `categoria`.
+   */
   const handleSubmit = (e:React.FormEvent<HTMLFormElement> ) => {
     e.preventDefault();
     if([nombre, categoria].includes("") && cantidad === 0 ){
