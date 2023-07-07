@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Header from "./components/Header";
+import ListadoGastos from "./components/ListadoGastos";
 import Modal from "./components/Modal";
 import { generarId } from "./helpers";
 import iconNuevoGasto from "./img/nuevo-gasto.svg";
@@ -15,15 +16,15 @@ interface gasto {
   nombre: string;
   cantidad: number;
   categoria: string;
+  fecha: Date;
 }
 
 function App() {
-  
   const [presupuesto, setPresupuesto] = useState<number>(0);
   const [isValidPresupuesto, setIsValidPresupuesto] = useState<boolean>(false);
-  
+
   const [modal, setModal] = useState<boolean>(false);
-  
+
   const [animarModal, setAnimarModal] = useState<boolean>(false);
   const [gastos, setGastos] = useState<gasto[]>([]);
 
@@ -63,13 +64,18 @@ function App() {
         setIsValidPresupuesto={setIsValidPresupuesto}
       />
       {isValidPresupuesto && (
-        <div className="nuevo-gasto">
-          <img
-            src={iconNuevoGasto}
-            alt="Icono de nuevo gasto"
-            onClick={handleNuevoGasto}
-          />
-        </div>
+        <>
+          <main>
+            <ListadoGastos gastos={gastos} />
+          </main>
+          <div className="nuevo-gasto">
+            <img
+              src={iconNuevoGasto}
+              alt="Icono de nuevo gasto"
+              onClick={handleNuevoGasto}
+            />
+          </div>
+        </>
       )}
       {modal && (
         <Modal

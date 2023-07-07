@@ -6,3 +6,7 @@
 export const generarId = ():string => {
     return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
 }
+
+export const formattedDate = (date: Date): string => {
+    return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: '2-digit' });
+}

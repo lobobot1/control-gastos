@@ -8,15 +8,27 @@ interface Props {
   setModal: (modal: boolean) => void;
   animarModal: boolean;
   setAnimarModal: (animarModal: boolean) => void;
-  guardarGasto: (gasto: any) => void;
+  guardarGasto: (gasto: gasto) => void;
+}
+interface gasto {
+  id: string;
+  nombre: string;
+  cantidad: number;
+  categoria: string;
+  fecha: Date;
 }
 
-const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto }: Props) => {
+const Modal = ({
+  setModal,
+  animarModal,
+  setAnimarModal,
+  guardarGasto,
+}: Props) => {
   const [nombre, setNombre] = useState<string>("");
   const [cantidad, setCantidad] = useState<number>(0);
   const [categoria, setCategoria] = useState<string>("");
   const [mens, setMens] = useState<string>("");
-  const [gastos,setGastos] = useState<any[]>([]);
+  //const [gastos, setGastos] = useState<gasto[]>([]);
 
   /**
    * The function closes a modal by setting animation and modal states to false and using a timeout to
@@ -37,33 +49,36 @@ const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto }: Props) =
    * state of `mens` and calling the function `guardarGasto` with the values of `nombre`, `cantidad`,
    * and `categoria`.
    */
-  const handleSubmit = (e:React.FormEvent<HTMLFormElement> ) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if([nombre, categoria].includes("") && cantidad === 0 ){
+    if ([nombre, categoria].includes("") && cantidad === 0) {
       setTimeout(() => {
         setMens("Todos los campos son obligatorios");
       }, 1e2);
-        return;
+      return;
     }
     guardarGasto({
+      id: "",
       nombre,
       cantidad,
-      categoria
+      categoria,
+      fecha: new Date(),
     });
     setMens("");
-  }
+  };
 
   return (
     <div className="modal">
       <div className="cerrar-modal">
         <img src={cerrarModal} alt="Cerrar modal" onClick={closeModal} />
       </div>
-      <form 
-      onSubmit={handleSubmit}
-      className={`formulario ${animarModal ? "animar" : ""}`}>
+      <form
+        onSubmit={handleSubmit}
+        className={`formulario ${animarModal ? "animar" : ""}`}
+      >
         <legend>Nuevos gastos</legend>
 
-        {mens && <Message tipo="error" >{mens}</Message>}
+        {mens && <Message tipo="error">{mens}</Message>}
         <div className="campo">
           <label htmlFor="nombre">Nombre gastos</label>
           <input
@@ -79,18 +94,18 @@ const Modal = ({ setModal, animarModal, setAnimarModal, guardarGasto }: Props) =
             type="text"
             id="amount"
             placeholder="Añade la cantidad del gasto"
-            value={cantidad=== 0 ? '' : cantidad}
+            value={cantidad === 0 ? "" : cantidad}
             onChange={(e) => setCantidad(Number(e.target.value))}
           />
 
           <label htmlFor="categoria">Categoria</label>
 
-          <select 
-            name="categoria" 
+          <select
+            name="categoria"
             id="vategoria"
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
-            >
+          >
             <option value=""> Selecciona</option>
             <option value="Ahorro">Ahorro</option>
             <option value="Comidas">Comidas</option>
