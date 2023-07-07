@@ -58,7 +58,6 @@ const Gasto = ({ gasto }: GastoProps) => {
         trailingActions={TrailingAction()}
       >
         <div className="gasto sombra">
-          <h1>JULIAM ES INCRESIONANTE</h1>
           <div className="contenido-gasto">
             <img src={dictionaryIcons[gasto.categoria]} alt="Icon" />
             <div className="descripcion-gasto">
@@ -69,8 +68,8 @@ const Gasto = ({ gasto }: GastoProps) => {
                 <span>{formattedDate(gasto.fecha)}</span>
               </p>
             </div>
-            <p className="cantidad-gasto">${gasto.cantidad}</p>
           </div>
+          <p className="cantidad-gasto">${gasto.cantidad}</p>
         </div>
       </SwipeableListItem>
     </SwipeableList>
