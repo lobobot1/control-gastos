@@ -20,12 +20,12 @@ interface gasto {
 }
 
 function App() {
-  const [presupuesto, setPresupuesto] = useState<number>(0);
-  const [isValidPresupuesto, setIsValidPresupuesto] = useState<boolean>(false);
+  const [presupuesto, setPresupuesto] = useState(0);
+  const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
 
-  const [modal, setModal] = useState<boolean>(false);
+  const [modal, setModal] = useState(false);
 
-  const [animarModal, setAnimarModal] = useState<boolean>(false);
+  const [animarModal, setAnimarModal] = useState(false);
   const [gastos, setGastos] = useState<gasto[]>([]);
 
   /**
@@ -56,8 +56,9 @@ function App() {
   };
 
   return (
-    <div>
+    <div className={modal ? 'fijar' : ''}>
       <Header
+        gastos={gastos}
         presupuesto={presupuesto}
         setPresupuesto={setPresupuesto}
         isValidPresupuesto={isValidPresupuesto}

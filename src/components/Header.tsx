@@ -19,19 +19,29 @@ type HeaderProps = {
   setPresupuesto: (value: number) => void;
   isValidPresupuesto: boolean;
   setIsValidPresupuesto: (value: boolean) => void;
+  gastos: gasto[];
 };
+
+interface gasto {
+  id: string;
+  nombre: string;
+  cantidad: number;
+  categoria: string;
+  fecha: Date;
+}
 
 const Header = ({
   presupuesto,
   setPresupuesto,
   isValidPresupuesto,
   setIsValidPresupuesto,
+  gastos,
 }: HeaderProps) => {
   return (
     <header>
       <h1>Planificador de gastos</h1>
       {isValidPresupuesto ? (
-        <ControlDePresupuesto presupuesto={presupuesto} />
+        <ControlDePresupuesto presupuesto={presupuesto} gastos={gastos} />
       ) : (
         <NuevoPresupuesto
           presupuesto={presupuesto}

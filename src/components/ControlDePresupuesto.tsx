@@ -1,5 +1,16 @@
+import { useEffect , useState } from "react";
+
 interface Props {
   presupuesto: number;
+  gastos: gasto[];
+}
+
+interface gasto {
+  id: string;
+  nombre: string;
+  cantidad: number;
+  categoria: string;
+  fecha: Date;
 }
 
 /**
@@ -9,7 +20,19 @@ interface Props {
  * `toLocaleString` method with the options of displaying the currency in US dollars, with no decimal
  * places, and with a minimum fraction digits of 0.
  */
-const ControlDePresupuesto = ({ presupuesto }: Props) => {
+const ControlDePresupuesto = ({ presupuesto, gastos }: Props) => {
+
+  const [disponible, setDisponible] = useState(0);
+  const [gastado, setGastado] = useState(0);
+
+  useEffect(() => {
+    const totalGastado:number = gastos.reduce((acc, gasto) => acc + gasto.cantidad, 0);
+    const totalDisponible:number = presupuesto - totalGastado;
+    setDisponible(totalDisponible);
+    setGastado(totalGastado);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gastos]);
+
   const amount = (money: number): string => {
     return money.toLocaleString("en-US", {
       style: "currency",
@@ -25,13 +48,16 @@ const ControlDePresupuesto = ({ presupuesto }: Props) => {
 
         <div className="contenido-presupuesto">
           <p>
-            <span>Restante: </span>{amount(presupuesto)}
+            <span>Restante: </span>
+            {amount(presupuesto)}
           </p>
           <p>
-            <span>Disponible: </span>{amount(0)}
+            <span>Disponible: </span>
+            {amount(disponible)}
           </p>
           <p>
-            <span>Gastado: </span>{amount(0)}
+            <span>Gastado: </span>
+            {amount(gastado)}
           </p>
         </div>
       </div>
