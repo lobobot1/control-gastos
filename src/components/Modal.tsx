@@ -67,6 +67,17 @@ const Modal = ({
     setMens("");
   };
 
+  const options: string[] = [
+    "",
+    "Ahorro",
+    "Comida",
+    "Casa",
+    "Gastos Varios",
+    "Ocio",
+    "Salud",
+    "Subscripciones",
+  ];
+
   return (
     <div className="modal">
       <div className="cerrar-modal">
@@ -102,18 +113,15 @@ const Modal = ({
 
           <select
             name="categoria"
-            id="vategoria"
+            id="categoria"
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
           >
-            <option value=""> Selecciona</option>
-            <option value="Ahorro">Ahorro</option>
-            <option value="Comidas">Comidas</option>
-            <option value="Casa">Casa</option>
-            <option value="Gastos Varios">Gastos Varios</option>
-            <option value="Ocio">Ocio</option>
-            <option value="Salud">Salud</option>
-            <option value="Subscripciones">Subscripciones</option>
+            {options.map((optionValue) => (
+              <option value={optionValue}>
+                {optionValue === "" ? "Selecciona" : optionValue}
+              </option>
+            ))}
           </select>
 
           <input type="submit" value={"Añadir Gastos"} />

@@ -19,10 +19,10 @@ type HeaderProps = {
   setPresupuesto: (value: number) => void;
   isValidPresupuesto: boolean;
   setIsValidPresupuesto: (value: boolean) => void;
-  gastos: gasto[];
+  gastos: Gasto[];
 };
 
-interface gasto {
+interface Gasto {
   id: string;
   nombre: string;
   cantidad: number;

@@ -26,10 +26,10 @@ interface GastoProps {
     fecha: Date;
   };
 }
-interface dictionaryIcon {
+interface DictionaryIcon {
   [key: string]: string | undefined;
 }
-const dictionaryIcons: dictionaryIcon = {
+const dictionaryIcons: DictionaryIcon = {
   Ahorro: IconoAhorro,
   Casa: IconoCasa,
   Comida: IconoComida,

@@ -1,16 +1,31 @@
 import { useEffect , useState } from "react";
 
+/* The `interface Props` defines the type of the props that the `ControlDePresupuesto` component
+expects. It specifies that the component expects two props: `presupuesto` of type `number` and
+`gastos` of type `Gasto[]`. */
 interface Props {
   presupuesto: number;
-  gastos: gasto[];
+  gastos: Gasto[];
 }
 
-interface gasto {
+/* The `interface Gasto` defines the structure of an object representing a "gasto" (expense) in the
+application. It specifies that a "gasto" object should have the following properties: */
+interface Gasto {
   id: string;
   nombre: string;
   cantidad: number;
   categoria: string;
   fecha: Date;
+}
+
+/* The `interface Amount` is defining the structure of an object representing the different amounts in
+the application. It specifies that an `Amount` object should have three properties: "Restante: " of
+type `number`, "Disponible: " of type `number`, and "Gastado: " of type `number`. These properties
+represent the remaining amount, the available amount, and the amount spent, respectively. */
+interface Amount {
+  "Restante: ": number;
+  "Disponible: ": number;
+  "Gastado: ": number;
 }
 
 /**
@@ -41,24 +56,30 @@ const ControlDePresupuesto = ({ presupuesto, gastos }: Props) => {
     });
   };
 
+  const options:string[]=[
+    "Restante: ",
+    "Disponible: ",
+    "Gastado: "
+  ]
+
+  const amountOption:Amount = {
+    "Restante: ": presupuesto,
+    "Disponible: ": disponible,
+    "Gastado: ": gastado
+  }
+
   return (
     <div className="contenedor-presupuesto contenedor sombra dos-columnas">
       <div>
         <p>Grafica aqui</p>
 
         <div className="contenido-presupuesto">
-          <p>
-            <span>Restante: </span>
-            {amount(presupuesto)}
-          </p>
-          <p>
-            <span>Disponible: </span>
-            {amount(disponible)}
-          </p>
-          <p>
-            <span>Gastado: </span>
-            {amount(gastado)}
-          </p>
+          {options.map((option:string) =>
+            <p>
+              <span>{option}</span>
+              {amount(amountOption[option as keyof typeof amountOption])}
+            </p>
+          )}
         </div>
       </div>
     </div>
