@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Gastos } from "../helpers/types";
 import cerrarModal from "../img/cerrar.svg";
 import Message from "./Message";
 
@@ -8,14 +9,7 @@ interface Props {
   setModal: (modal: boolean) => void;
   animarModal: boolean;
   setAnimarModal: (animarModal: boolean) => void;
-  guardarGasto: (gasto: gasto) => void;
-}
-interface gasto {
-  id: string;
-  nombre: string;
-  cantidad: number;
-  categoria: string;
-  fecha: Date;
+  guardarGasto: (gasto: Gastos) => void;
 }
 
 const Modal = ({
@@ -24,10 +18,10 @@ const Modal = ({
   setAnimarModal,
   guardarGasto,
 }: Props) => {
-  const [nombre, setNombre] = useState<string>("");
-  const [cantidad, setCantidad] = useState<number>(0);
-  const [categoria, setCategoria] = useState<string>("");
-  const [mens, setMens] = useState<string>("");
+  const [nombre, setNombre] = useState("");
+  const [cantidad, setCantidad] = useState(0);
+  const [categoria, setCategoria] = useState("");
+  const [mens, setMens] = useState("");
   //const [gastos, setGastos] = useState<gasto[]>([]);
 
   /**
@@ -117,8 +111,8 @@ const Modal = ({
             value={categoria}
             onChange={(e) => setCategoria(e.target.value)}
           >
-            {options.map((optionValue) => (
-              <option value={optionValue}>
+            {options.map((optionValue, index) => (
+              <option value={optionValue} key={index}>
                 {optionValue === "" ? "Selecciona" : optionValue}
               </option>
             ))}

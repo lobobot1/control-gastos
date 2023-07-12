@@ -1,22 +1,15 @@
 import { useEffect , useState } from "react";
 
+import { Gastos } from "../helpers/types";
+
 /* The `interface Props` defines the type of the props that the `ControlDePresupuesto` component
 expects. It specifies that the component expects two props: `presupuesto` of type `number` and
 `gastos` of type `Gasto[]`. */
 interface Props {
   presupuesto: number;
-  gastos: Gasto[];
+  gastos: Gastos[];
 }
 
-/* The `interface Gasto` defines the structure of an object representing a "gasto" (expense) in the
-application. It specifies that a "gasto" object should have the following properties: */
-interface Gasto {
-  id: string;
-  nombre: string;
-  cantidad: number;
-  categoria: string;
-  fecha: Date;
-}
 
 /* The `interface Amount` is defining the structure of an object representing the different amounts in
 the application. It specifies that an `Amount` object should have three properties: "Restante: " of
@@ -74,8 +67,8 @@ const ControlDePresupuesto = ({ presupuesto, gastos }: Props) => {
         <p>Grafica aqui</p>
 
         <div className="contenido-presupuesto">
-          {options.map((option:string) =>
-            <p>
+          {options.map((option:string,index) =>
+            <p key={index}>
               <span>{option}</span>
               {amount(amountOption[option as keyof typeof amountOption])}
             </p>

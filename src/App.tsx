@@ -1,23 +1,13 @@
-import { useState } from "react";
+import { useState , useEffect } from "react";
+
 import Header from "./components/Header";
 import ListadoGastos from "./components/ListadoGastos";
 import Modal from "./components/Modal";
-import { generarId } from "./helpers";
-import iconNuevoGasto from "./img/nuevo-gasto.svg";
 
-/* The `interface gasto` is defining the structure of an object that represents a "gasto" (expense) in
-the application. It has four properties: `id` (a string representing the unique identifier of the
-expense), `nombre` (a string representing the name of the expense), `cantidad` (a number
-representing the amount of the expense), and `categoria` (a string representing the category of the
-expense). This interface is used to ensure that all expenses in the application have the same
-structure and properties. */
-interface gasto {
-  id: string;
-  nombre: string;
-  cantidad: number;
-  categoria: string;
-  fecha: Date;
-}
+import { generarId } from "./helpers";
+import { Gastos } from "./helpers/types";
+
+import iconNuevoGasto from "./img/nuevo-gasto.svg";
 
 function App() {
   const [presupuesto, setPresupuesto] = useState(0);
@@ -26,8 +16,18 @@ function App() {
   const [modal, setModal] = useState(false);
 
   const [animarModal, setAnimarModal] = useState(false);
-  const [gastos, setGastos] = useState<gasto[]>([]);
+  const [gastos, setGastos] = useState<Gastos[]>([]);
 
+  const [gastoEditar, setGastoEditar] = useState<Gastos | null>(null);
+
+  useEffect(() => {
+    if (gastoEditar) {
+      setModal(true);
+      setTimeout(() => {
+        setAnimarModal(true);
+      }, 1e2);
+    }
+  }, [gastoEditar]);
   /**
    * The function sets a modal to true and animates it after a short delay.
    */
@@ -41,12 +41,12 @@ function App() {
   /**
    * This function adds a new expense to a list of expenses and closes a modal window after a short
    * delay.
-   * @param {gasto} gasto - "gasto" is a parameter of type "gasto", which is likely an object
+   * @param {Gastos} gasto - "gasto" is a parameter of type "gasto", which is likely an object
    * containing information about a particular expense or cost. The function "guardarGasto" takes this
    * object as an argument and performs some actions with it, such as generating an ID for the expense,
    * adding it to an
    */
-  const guardarGasto = (gasto: gasto) => {
+  const guardarGasto = (gasto: Gastos) => {
     gasto.id = generarId();
     setGastos([...gastos, gasto]);
     setAnimarModal(false);
@@ -56,7 +56,7 @@ function App() {
   };
 
   return (
-    <div className={modal ? 'fijar' : ''}>
+    <div className={modal ? "fijar" : ""}>
       <Header
         gastos={gastos}
         presupuesto={presupuesto}
@@ -67,7 +67,7 @@ function App() {
       {isValidPresupuesto && (
         <>
           <main>
-            <ListadoGastos gastos={gastos} />
+            <ListadoGastos gastos={gastos} setGastoEditar={setGastoEditar} />
           </main>
           <div className="nuevo-gasto">
             <img

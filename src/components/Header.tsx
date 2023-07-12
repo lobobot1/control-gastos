@@ -1,6 +1,8 @@
 import NuevoPresupuesto from "./NuevoPresupuesto";
 import ControlDePresupuesto from "./ControlDePresupuesto";
 
+import { Gastos } from "../helpers/types";
+
 /**
  * The type HeaderProps defines the props for a component that includes a budget value, a function to
  * set the budget value, a boolean indicating if the budget value is valid, and a function to set the
@@ -19,16 +21,8 @@ type HeaderProps = {
   setPresupuesto: (value: number) => void;
   isValidPresupuesto: boolean;
   setIsValidPresupuesto: (value: boolean) => void;
-  gastos: Gasto[];
+  gastos: Gastos[];
 };
-
-interface Gasto {
-  id: string;
-  nombre: string;
-  cantidad: number;
-  categoria: string;
-  fecha: Date;
-}
 
 const Header = ({
   presupuesto,
