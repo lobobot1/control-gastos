@@ -22,6 +22,7 @@ import IconoSuscripciones from "../img/icono_suscripciones.svg";
 interface GastoProps {
   gasto: Gastos;
   setGastoEditar: (gasto: Gastos) => void;
+  eliminarGasto: (id: string) => void;
 }
 
 interface DictionaryIcon {
@@ -32,21 +33,25 @@ const dictionaryIcons: DictionaryIcon = {
   Ahorro: IconoAhorro,
   Casa: IconoCasa,
   Comida: IconoComida,
-  Gastos: IconoGastos,
+  "Gastos Varios": IconoGastos,
   Ocio: IconoOcio,
   Salud: IconoSalud,
-  Suscripciones: IconoSuscripciones,
+  Subscripciones: IconoSuscripciones,
 };
 
-const Gasto = ({ gasto, setGastoEditar }: GastoProps) => {
+const Gasto = ({ gasto, setGastoEditar, eliminarGasto }: GastoProps) => {
   const LeadingAction = () => (
     <LeadingActions>
-      <SwipeAction onClick={() => setGastoEditar(gasto)}>Editar</SwipeAction>
+      <SwipeAction onClick={() => setGastoEditar(gasto)} destructive={true}>
+        Editar
+      </SwipeAction>
     </LeadingActions>
   );
   const TrailingAction = () => (
     <TrailingActions>
-      <SwipeAction onClick={() => console.log("hola")}>Eliminar</SwipeAction>
+      <SwipeAction onClick={() => eliminarGasto(gasto.id)}>
+        Eliminar
+      </SwipeAction>
     </TrailingActions>
   );
 

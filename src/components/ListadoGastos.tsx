@@ -5,14 +5,20 @@ import { Gastos } from "../helpers/types";
 interface IGasto {
   gastos: Gastos[];
   setGastoEditar: (gasto: Gastos) => void;
+  eliminarGasto: (id: string) => void;
 }
 
-const ListadoGastos = ({ gastos, setGastoEditar }: IGasto) => {
+const ListadoGastos = ({ gastos, setGastoEditar, eliminarGasto }: IGasto) => {
   return (
     <div className="listado-gastos contenedor">
       <h2>{gastos.length ? "Gastos" : "No hay Gastos"}</h2>
       {gastos.map((gasto) => (
-        <Gasto key={gasto.id} gasto={gasto} setGastoEditar={setGastoEditar} />
+        <Gasto
+          key={gasto.id}
+          gasto={gasto}
+          setGastoEditar={setGastoEditar}
+          eliminarGasto={eliminarGasto}
+        />
       ))}
     </div>
   );

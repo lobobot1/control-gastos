@@ -1,4 +1,4 @@
-import { useState , useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import Header from "./components/Header";
 import ListadoGastos from "./components/ListadoGastos";
@@ -33,6 +33,7 @@ function App() {
    */
   const handleNuevoGasto = () => {
     setModal(true);
+    setGastoEditar(null);
     setTimeout(() => {
       setAnimarModal(true);
     }, 1e2);
@@ -47,12 +48,28 @@ function App() {
    * adding it to an
    */
   const guardarGasto = (gasto: Gastos) => {
-    gasto.id = generarId();
-    setGastos([...gastos, gasto]);
+    if (gastoEditar) {
+      const gastosActualizados = gastos.map((g) => {
+        if (g.id === gastoEditar.id) {
+          return gasto;
+        }
+        return g;
+      });
+      setGastos(gastosActualizados);
+      setGastoEditar(null);
+    } else {
+      gasto.id = generarId();
+      setGastos([...gastos, gasto]);
+    }
     setAnimarModal(false);
     setTimeout(() => {
       setModal(false);
     }, 1e2);
+  };
+
+  const eliminarGasto = (id: string) => {
+    const gastosActualizados = gastos.filter((g) => g.id !== id);
+    setGastos(gastosActualizados);
   };
 
   return (
@@ -67,7 +84,11 @@ function App() {
       {isValidPresupuesto && (
         <>
           <main>
-            <ListadoGastos gastos={gastos} setGastoEditar={setGastoEditar} />
+            <ListadoGastos
+              gastos={gastos}
+              setGastoEditar={setGastoEditar}
+              eliminarGasto={eliminarGasto}
+            />
           </main>
           <div className="nuevo-gasto">
             <img
@@ -84,6 +105,8 @@ function App() {
           animarModal={animarModal}
           setAnimarModal={setAnimarModal}
           guardarGasto={guardarGasto}
+          gastoEditar={gastoEditar}
+          setGastoEditar={setGastoEditar}
         />
       )}
     </div>
