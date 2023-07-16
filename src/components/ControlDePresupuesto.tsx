@@ -1,6 +1,10 @@
-import { useEffect , useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Gastos } from "../helpers/types";
+
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+
+import "react-circular-progressbar/dist/styles.css";
 
 /* The `interface Props` defines the type of the props that the `ControlDePresupuesto` component
 expects. It specifies that the component expects two props: `presupuesto` of type `number` and
@@ -9,7 +13,6 @@ interface Props {
   presupuesto: number;
   gastos: Gastos[];
 }
-
 
 /* The `interface Amount` is defining the structure of an object representing the different amounts in
 the application. It specifies that an `Amount` object should have three properties: "Restante: " of
@@ -29,16 +32,25 @@ interface Amount {
  * places, and with a minimum fraction digits of 0.
  */
 const ControlDePresupuesto = ({ presupuesto, gastos }: Props) => {
-
   const [disponible, setDisponible] = useState(0);
   const [gastado, setGastado] = useState(0);
+  const [porcentaje, setPorcentaje] = useState(0);
 
   useEffect(() => {
-    const totalGastado:number = gastos.reduce((acc, gasto) => acc + gasto.cantidad, 0);
-    const totalDisponible:number = presupuesto - totalGastado;
+    const totalGastado: number = gastos.reduce(
+      (acc, gasto) => acc + gasto.cantidad,
+      0
+    );
+    const totalDisponible: number = presupuesto - totalGastado;
+    const nuevoPorcentaje: number =
+      ((presupuesto - totalDisponible) / presupuesto) * 100;
+    setPorcentaje(nuevoPorcentaje);
     setDisponible(totalDisponible);
     setGastado(totalGastado);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    setTimeout(() => {
+      setPorcentaje(nuevoPorcentaje);
+    }, 1000);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gastos]);
 
   const amount = (money: number): string => {
@@ -49,31 +61,34 @@ const ControlDePresupuesto = ({ presupuesto, gastos }: Props) => {
     });
   };
 
-  const options:string[]=[
-    "Restante: ",
-    "Disponible: ",
-    "Gastado: "
-  ]
+  const options: string[] = ["Restante: ", "Disponible: ", "Gastado: "];
 
-  const amountOption:Amount = {
+  const amountOption: Amount = {
     "Restante: ": presupuesto,
     "Disponible: ": disponible,
-    "Gastado: ": gastado
-  }
+    "Gastado: ": gastado,
+  };
 
   return (
     <div className="contenedor-presupuesto contenedor sombra dos-columnas">
       <div>
-        <p>Grafica aqui</p>
-
-        <div className="contenido-presupuesto">
-          {options.map((option:string,index) =>
-            <p key={index}>
-              <span>{option}</span>
-              {amount(amountOption[option as keyof typeof amountOption])}
-            </p>
-          )}
-        </div>
+        <CircularProgressbar
+          styles={buildStyles({
+            textSize: "16px",
+            pathColor: "#3B82F6",
+            trailColor: "#F5F5F5",
+          })}
+          text={`${porcentaje.toFixed(2)}% Gastado`}
+          value={porcentaje}
+        />
+      </div>
+      <div className="contenido-presupuesto">
+        {options.map((option: string, index) => (
+          <p key={index}>
+            <span>{option}</span>
+            {amount(amountOption[option as keyof typeof amountOption])}
+          </p>
+        ))}
       </div>
     </div>
   );
