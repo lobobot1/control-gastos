@@ -54,7 +54,6 @@ const Gasto = ({ gasto, setGastoEditar, eliminarGasto }: GastoProps) => {
       </SwipeAction>
     </TrailingActions>
   );
-
   return (
     <SwipeableList>
       <SwipeableListItem
@@ -69,7 +68,7 @@ const Gasto = ({ gasto, setGastoEditar, eliminarGasto }: GastoProps) => {
               <p className="nombre-gasto">{gasto.nombre}</p>
               <p className="fecha-gasto">
                 Agregado el: {""}
-                <span>{formattedDate(gasto.fecha)}</span>
+                <span>{formattedDate(new Date(gasto.fecha))}</span>
               </p>
             </div>
           </div>
