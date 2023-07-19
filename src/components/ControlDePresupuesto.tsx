@@ -12,6 +12,9 @@ expects. It specifies that the component expects two props: `presupuesto` of typ
 interface Props {
   presupuesto: number;
   gastos: Gastos[];
+  setGastos: (value: Gastos[]) => void;
+  setPresupuesto: (value: number) => void;
+  setValidPresupuesto: (value: boolean) => void;
 }
 
 /* The `interface Amount` is defining the structure of an object representing the different amounts in
@@ -31,7 +34,13 @@ interface Amount {
  * `toLocaleString` method with the options of displaying the currency in US dollars, with no decimal
  * places, and with a minimum fraction digits of 0.
  */
-const ControlDePresupuesto = ({ presupuesto, gastos }: Props) => {
+const ControlDePresupuesto = ({
+  presupuesto,
+  gastos,
+  setGastos,
+  setPresupuesto,
+  setValidPresupuesto,
+}: Props) => {
   const [disponible, setDisponible] = useState(0);
   const [gastado, setGastado] = useState(0);
   const [porcentaje, setPorcentaje] = useState(0);
@@ -63,6 +72,12 @@ const ControlDePresupuesto = ({ presupuesto, gastos }: Props) => {
 
   const options: string[] = ["Restante: ", "Disponible: ", "Gastado: "];
 
+  const handleResetApp = () => () => {
+    setGastos([]);
+    setPresupuesto(0);
+    setValidPresupuesto(false);
+  };
+
   const amountOption: Amount = {
     "Restante: ": presupuesto,
     "Disponible: ": disponible,
@@ -83,8 +98,22 @@ const ControlDePresupuesto = ({ presupuesto, gastos }: Props) => {
         />
       </div>
       <div className="contenido-presupuesto">
+        <button
+          className="reset-app"
+          type="button"
+          onClick={handleResetApp()}
+        >
+          Resetear App
+        </button>
         {options.map((option: string, index) => (
-          <p key={index}>
+          <p
+            key={index}
+            className={`${
+              option.includes("Disponible: ") && disponible < 0
+                ? "negativo"
+                : ""
+            }`}
+          >
             <span>{option}</span>
             {amount(amountOption[option as keyof typeof amountOption])}
           </p>

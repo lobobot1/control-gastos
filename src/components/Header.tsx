@@ -1,5 +1,5 @@
-import NuevoPresupuesto from "./NuevoPresupuesto";
 import ControlDePresupuesto from "./ControlDePresupuesto";
+import NuevoPresupuesto from "./NuevoPresupuesto";
 
 import { Gastos } from "../helpers/types";
 
@@ -22,6 +22,7 @@ type HeaderProps = {
   isValidPresupuesto: boolean;
   setIsValidPresupuesto: (value: boolean) => void;
   gastos: Gastos[];
+  setGastos: (value: Gastos[]) => void;
 };
 
 const Header = ({
@@ -30,12 +31,19 @@ const Header = ({
   isValidPresupuesto,
   setIsValidPresupuesto,
   gastos,
+  setGastos,
 }: HeaderProps) => {
   return (
     <header>
       <h1>Planificador de gastos</h1>
       {isValidPresupuesto ? (
-        <ControlDePresupuesto presupuesto={presupuesto} gastos={gastos} />
+        <ControlDePresupuesto
+          presupuesto={presupuesto}
+          gastos={gastos}
+          setGastos={setGastos}
+          setPresupuesto={setPresupuesto}
+          setValidPresupuesto={setIsValidPresupuesto}
+        />
       ) : (
         <NuevoPresupuesto
           presupuesto={presupuesto}
